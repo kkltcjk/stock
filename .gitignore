@@ -5,3 +5,5 @@ new_printer/*.pyc
 *.xml
 *.DS_Store
 *.swp
+*.log
+*.ini
