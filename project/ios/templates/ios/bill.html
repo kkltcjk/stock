@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>Bootstrap 实例 - 边框表格</title>
+        {% load staticfiles %}
+        <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.js' %}"></script>
+    </head>
+    <body>
+
+        <table class="table table-bordered">
+            <caption></caption>
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>礼金</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tanmay</td>
+                    <td>Bangalore</td>
+                </tr>
+                <tr>
+                    <td>Sachin</td>
+                    <td>Mumbai</td>
+                </tr>
+                <tr>
+                    <td>Uma</td>
+                    <td>Pune</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </body>
+</html>
