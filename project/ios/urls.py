@@ -11,5 +11,8 @@ urlpatterns = patterns('',
     url('^post_method$', views.post_method, name="post_method"),
 
     # bill
-    url('^bill$', views.bill, name="bill"),
+    url('^bill$', views.showbill, name="showbill"),
+
+    # add
+    url('^add$', views.add, name="add"),
 )

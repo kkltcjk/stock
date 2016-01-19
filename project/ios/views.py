@@ -5,6 +5,8 @@ import json
 
 from conf import website
 
+from database.models import bill
+
 # Create your views here.
 
 
@@ -28,5 +30,33 @@ def post_method(request):
     return HttpResponse(json.dumps(context))
 
 
-def bill(request):
-    return render(request, website.bill)
+def showbill(request):
+    bill_list = bill.objects.all()
+
+    total = 0
+    for item in bill_list:
+        total += item.money
+
+    context = {
+        'bill_list': bill_list,
+        'total': total
+    }
+
+    return render(request, website.bill, context)
+
+
+def add(request):
+    name = request.POST['name'].strip()
+    money = int(request.POST['money'].strip())
+
+    new_bill = bill.objects.create(
+        name = name,
+        money = money
+    )
+
+    if new_bill:
+        status = "SUCCESS"
+    else:
+        status = "FAILURE"
+
+    return HttpResponse(json.dumps({'status': status}))
