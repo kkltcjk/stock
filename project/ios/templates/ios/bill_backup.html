@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Congratulations</title>
+        <title>Bootstrap 实例 - 边框表格</title>
         {% load staticfiles %}
         <meta name="description" content="Creating Modal Window with Bootstrap">
         <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
@@ -11,8 +11,8 @@
             <caption></caption>
             <thead>
                 <tr>
-                    <th>name</th>
-                    <th>money</th>
+                    <th>姓名</th>
+                    <th>礼金</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,7 +27,7 @@
         <button id="add" class="btn btn-primary btn" data-toggle="modal" data-target="#myModal">
             Add+
         </button>
-        <label style="position:fixed;right:140">total： </label>
+        <label style="position:fixed;right:140">总计： </label>
         <label style="position:fixed;right:100" id="total">{{ total }}</label>
 
         <!-- Modal -->
@@ -39,11 +39,11 @@
                         <h4 class="modal-title" id="myModalLabel">Add Customer</h4>
                     </div>
                     <div class="modal-body">
-                        <label>name: </label>
-                        <input type="text" id="name" placeholder="name">
+                        <label>姓名: </label>
+                        <input type="text" id="name" placeholder="姓名">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <label>money: </label>
-                        <input type="text" id="money" placeholder="money">
+                        <label>礼金: </label>
+                        <input type="text" id="money" placeholder="礼金">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
