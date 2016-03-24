@@ -12,4 +12,16 @@ urlpatterns = patterns('',
 
     # stop the thread
     url('^stop$', views.stop, name="stop"),
+
+    # single buy monitor
+    url('^startBuyMonitor$', views.startBuyMonitor, name="startBuyMonitor"),
+
+    # set buy monitor
+    url('^setBuyMonitor$', views.setBuyMonitor, name="setBuyMonitor"),
+
+    # single sell monitor
+    url('^startSellMonitor$', views.startSellMonitor, name="startSellMonitor"),
+
+    # set sell monitor
+    url('^setSellMonitor$', views.setSellMonitor, name="setSellMonitor"),
 )
