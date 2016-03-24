@@ -11,8 +11,8 @@ from conf import website
 from utils.ShortMessage import ShortMessage
 from utils.Stock import Stock
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 # Create your views here.
 
