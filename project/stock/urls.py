@@ -8,10 +8,7 @@ urlpatterns = patterns('',
     url('^buy$', views.buy, name="buy"),
 
     # start to monitor
-    url('^sell$', views.sell, name="sell"),
-
-    # stop the thread
-    url('^stop$', views.stop, name="stop"),
+    url('^test$', views.test, name="test"),
 
     # single buy monitor
     url('^startBuyMonitor$', views.startBuyMonitor, name="startBuyMonitor"),

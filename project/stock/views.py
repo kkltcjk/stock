@@ -19,45 +19,32 @@ sys.setdefaultencoding('utf-8')
 MAX_PRICE = 0.01
 MIN_PRICE = 1000.00
 
-DROP_LINE = 0.03
-RISE_LINE = 0.03
+DROP_LINE = 0.04
+RISE_LINE = 0.04
 ROLLBACK_LINE = 0.005
 
 stock_dict = {
     '002594': '比亚迪002594',
     '601633': '长城601633',
-    '601519': '大智慧601519'
+    '601519': '大智慧601519',
+    '300033': '同花顺300033',
+    '601211': '国泰君安601211',
+    '600999': '招商证券600999',
+    '600030': '中信证券600030',
+    '000776': '广发证券000776'
 }
-
-flag_dict = {
-    'byd': True,
-    'cc': True,
-    'dzh': True
-}
-
-mapping_dict = {
-    '002594': 'byd',
-    '601633': 'cc',
-    '601519': 'dzh'
-}
-
 
 def buy(request):
     for stock in stock_dict.keys():
         thread.start_new_thread(buyMonitor, (stock, DROP_LINE, ROLLBACK_LINE))
     return render(request, website.buy)
 
-def sell(request):
+def test(request):
     max_price = 58.20
     stock = Stock('002594')
     value_list = stock.getValueList()
     remind_master(max_price, value_list, code, 0)
-    return render(request, website.sell)
-
-def stop(request):
-    stock = request.GET['stock']
-    if flag_dict.has_key(stock):
-        flag_dict[stock] = False
+    return render(request, website.test)
 
 def stock_price_init(stock):
     value_list = stock.getValueList()
@@ -73,7 +60,8 @@ def buyMonitor(code, dropline, rollbackline):
     max_price = stock_price_init(stock)
     print '待买入' + code + 'first price:' + str(max_price)
 
-    flag = 0
+    warn_flag = 0
+    remind_flag = 0
     stop_mark = True
     while stop_mark:
         value_list = stock.getValueList()
@@ -84,15 +72,18 @@ def buyMonitor(code, dropline, rollbackline):
             min_price = MIN_PRICE
         if share_price < min_price:
             min_price = share_price
-        if (max_price - share_price) / max_price > dropline:
-            flag = 1
-        if flag == 1:
+        if ((max_price - share_price) / max_price > dropline) and warn_flag == 0:
+            remind_flag = 1
+            warn_master(code, rollbackline, 0)
+            warn_flag = 1
+        if remind_flag == 1:
             if (share_price - min_price) / min_price > rollbackline:
                 remind_master(max_price, value_list, code, 0)
-                stop_mark = False
+                # stop_mark = False
                 max_price = MAX_PRICE
                 min_price = MIN_PRICE
-                flag = 0
+                remind_flag = 0
+                warn_flag = 0
         time.sleep(15)
 
 def sellMonitor(buy_price, code, riseline, rollbackline):
@@ -104,7 +95,8 @@ def sellMonitor(buy_price, code, riseline, rollbackline):
 
     stock = Stock(code)
 
-    flag = 0
+    warn_flag = 0
+    remind_flag = 0
     stop_mark = True
 
     while stop_mark:
@@ -113,13 +105,29 @@ def sellMonitor(buy_price, code, riseline, rollbackline):
         print '待卖出' + code + ':' + str(share_price)
         if share_price > max_price:
             max_price = share_price
-        if (max_price - buy_price) / buy_price > riseline:
-            flag = 1
-        if flag == 1:
+        if ((max_price - buy_price) / buy_price > riseline) and warn_flag == 0:
+            remind_flag = 1
+            warn_master(code, riseline, 1)
+            warn_flag = 1
+        if remind_flag == 1:
             if (max_price - share_price) / max_price > rollbackline:
                 remind_master(buy_price, value_list, code, 1)
                 stop_mark = False
         time.sleep(15)
+
+def warn_master(code, line, flag):
+    message = ''
+    message += u'您所关注的股票代码【'
+    message += code
+    if flag == 0:
+        message += u'】累计已下跌【'
+    else:
+        message += u'】累计已上涨【'
+    message += str(line)
+    message += u'】%，请及时关注。'
+
+    short_message = ShortMessage(message)
+    short_message.send()
 
 def remind_master(extreme_price, value_list, code, flag):
     sh_index = Stock('sh').getShIndex()
