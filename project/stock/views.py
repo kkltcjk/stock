@@ -23,19 +23,30 @@ DROP_LINE = 0.04
 RISE_LINE = 0.03
 ROLLBACK_LINE = 0.005
 
-stock_dict = {
-    '002594': '比亚迪002594',
-    '601633': '长城601633',
-    '601519': '大智慧601519',
-    '300033': '同花顺300033',
-    '601211': '国泰君安601211',
-    '600999': '招商证券600999',
-    '600030': '中信证券600030',
-    '000776': '广发证券000776'
+buy_dict = {
+    '002594': True,
+    '601633': True,
+    '601519': True,
+    '300033': True,
+    '601211': True,
+    '600999': True,
+    '600030': True,
+    '000776': True
+}
+
+sell_dict = {
+    '002594': False,
+    '601633': False,
+    '601519': False,
+    '300033': False,
+    '601211': False,
+    '600999': False,
+    '600030': False,
+    '000776': False
 }
 
 def buy(request):
-    for stock in stock_dict.keys():
+    for stock in buy_dict.keys():
         thread.start_new_thread(buyMonitor, (stock, DROP_LINE, ROLLBACK_LINE))
     return render(request, website.buy)
 
@@ -65,8 +76,7 @@ def buyMonitor(code, dropline, rollbackline):
 
     warn_flag = 0
     remind_flag = 0
-    stop_mark = True
-    while stop_mark:
+    while buy_dict[code]:
         value_list = stock.getValueList()
         share_price = float(value_list[1])
         print '待买入' + code + ':' +  str(share_price)
@@ -89,10 +99,11 @@ def buyMonitor(code, dropline, rollbackline):
                 warn_flag = 0
         time.sleep(15)
 
-def sellMonitor(buy_price, code, riseline, rollbackline):
-    now_date = datetime.datetime.now()
-    roll_seconds = (9 * 60 + 30) + 24 * 60 - (now_date.hour * 60 + now_date.minute)
-    time.sleep(roll_seconds)
+def sellMonitor(buy_price, code, riseline, rollbackline, todaystart):
+    if todaystart == '0':
+        now_date = datetime.datetime.now()
+        roll_seconds = (9 * 60 + 30) + 24 * 60 - (now_date.hour * 60 + now_date.minute)
+        time.sleep(roll_seconds)
 
     max_price = MAX_PRICE
 
@@ -100,9 +111,8 @@ def sellMonitor(buy_price, code, riseline, rollbackline):
 
     warn_flag = 0
     remind_flag = 0
-    stop_mark = True
 
-    while stop_mark:
+    while sell_dict[code]:
         value_list = stock.getValueList()
         share_price = float(value_list[1])
         print '待卖出' + code + ':' + str(share_price)
@@ -115,7 +125,6 @@ def sellMonitor(buy_price, code, riseline, rollbackline):
         if remind_flag == 1:
             if (max_price - share_price) / max_price > rollbackline:
                 remind_master(buy_price, value_list, code, 1)
-                stop_mark = False
         time.sleep(15)
 
 def warn_master(code, line, flag):
@@ -174,6 +183,8 @@ def startBuyMonitor(request):
     dropline = float(request.POST['dropline'])
     rollbackline = float(request.POST['rollbackline'])
 
+    global buy_dict
+    buy_dict[code] = True
     thread.start_new_thread(buyMonitor, (code, dropline, rollbackline))
     return HttpResponse(json.dumps({'state': 'SUCCESS'}))
 
@@ -185,6 +196,21 @@ def startSellMonitor(request):
     buyprice = float(request.POST['buyprice'])
     riseline = float(request.POST['riseline'])
     rollbackline = float(request.POST['rollbackline'])
+    todaystart = request.POST['todaystart']
 
-    thread.start_new_thread(sellMonitor, (buyprice, code, riseline, rollbackline))
+    global sell_dict
+    sell_dict[code] = True
+    thread.start_new_thread(sellMonitor, (buyprice, code, riseline, rollbackline, todaystart))
     return HttpResponse(json.dumps({'state': 'SUCCESS'}))
+
+def stopBuyStock(request):
+    code = request.GET['code']
+    global buy_dict
+    buy_dict[code] = False
+    return render(request, website.test)
+
+def stopSellStock(request):
+    code = request.GET['code']
+    global sell_dict
+    sell_dict[code] = False
+    return render(request, website.test)
