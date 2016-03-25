@@ -20,7 +20,7 @@ MAX_PRICE = 0.01
 MIN_PRICE = 1000.00
 
 DROP_LINE = 0.04
-RISE_LINE = 0.04
+RISE_LINE = 0.03
 ROLLBACK_LINE = 0.005
 
 stock_dict = {
@@ -41,9 +41,12 @@ def buy(request):
 
 def test(request):
     max_price = 58.20
-    stock = Stock('002594')
+    code = '002594'
+    stock = Stock(code)
     value_list = stock.getValueList()
     remind_master(max_price, value_list, code, 0)
+    time.sleep(5)
+    warn_master(code, DROP_LINE, 0)
     return render(request, website.test)
 
 def stock_price_init(stock):
@@ -123,7 +126,7 @@ def warn_master(code, line, flag):
         message += u'】累计已下跌【'
     else:
         message += u'】累计已上涨【'
-    message += str(line)
+    message += str(line * 100)
     message += u'】%，请及时关注。'
 
     short_message = ShortMessage(message)
