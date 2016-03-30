@@ -3,9 +3,29 @@ import urllib2
 import re
 import datetime
 
+class StockLimit:
+    def __init__(self, line, rollbackline):
+        self.line = line
+        self.rollbackline = rollbackline
+
+first_drop = StockLimit(0.04, 0.005)
+second_drop = StockLimit(0.05, 0.01)
+third_drop = StockLimit(0.08, 0.02)
+first_rise = StockLimit(0.03, 0.003)
+second_rise = StockLimit(0.04, 0.005)
+third_rise = StockLimit(0.05, 0.01)
+forth_rise = StockLimit(0.08, 0.02)
+
 class Stock:
-    def __init__(self, code):
+    def __init__(self, code, fd = first_drop, sd = second_drop, td = third_drop, fr = first_rise, sr = second_rise, tr = third_rise, fhr = forth_rise):
         self.code = code
+        self.first_drop = fd
+        self.second_drop = sd
+        self.third_drop = td
+        self.first_rise = fr
+        self.second_rise = sr
+        self.third_rise = tr
+        self.forth_rise = fhr
 
     def getUrlByCode(self, code):
         """根据代码获取详细的url"""

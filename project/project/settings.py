@@ -102,6 +102,70 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        },
+    },
+    'filters': {
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter':'standard',
+        },
+        'buystockhandler': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename':os.path.join(BASE_DIR, 'stock/log/buystock.log'),
+            'formatter':'standard',
+        },
+        'sellstockhandler': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename':os.path.join(BASE_DIR, 'stock/log/sellstock.log'),
+            'formatter':'standard',
+        },
+        'remindhandler': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename':os.path.join(BASE_DIR, 'stock/log/remind.log'),
+            'formatter':'standard',
+        },
+        'console': {
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+            'formatter':'standard',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'buystock':{
+            'handlers': ['buystockhandler','console'],
+            'level': 'INFO',
+            'propagate': False
+        },
+        'sellstock':{
+            'handlers': ['sellstockhandler','console'],
+            'level': 'INFO',
+            'propagate': False
+        },
+        'remind':{
+            'handlers': ['remindhandler','console'],
+            'level': 'INFO',
+            'propagate': False
+        },
+    }
+}
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
