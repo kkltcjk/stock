@@ -15,7 +15,7 @@ class ShortMessage:
     def __init__(self, message):
         self.user = 'cf_gaominquan'
         self.password = 'miffy31415926'
-        self.touser = '13148499085'
+        self.touser = '18657106966'
         self.message = message
 
     def send(self):
