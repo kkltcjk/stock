@@ -192,7 +192,8 @@ def warn_master(code, line, flag):
     message += str(line * 100)
     message += u'】%，请及时关注。'
 
-    short_message = ShortMessage(message)
+    phone = '13148499085'
+    short_message = ShortMessage(message, phone)
     return_dict = short_message.send()
 
     return_mess = code + u'股票警告:返回值为' + return_dict['code'] + u',状态为' + return_dict['msg']
@@ -248,7 +249,8 @@ def remind_master(first_price, second_price, value_list, code, flag):
         message += u'】%，建议立即抛出。'
 
 
-    short_message = ShortMessage(message)
+    phone = '18657106966'
+    short_message = ShortMessage(message, phone)
     return_dict = short_message.send()
     return_mess = code + u'股票提醒:返回值为' + return_dict['code'] + u',状态为' + return_dict['msg']
     remindlogger.info(return_mess)

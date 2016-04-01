@@ -12,10 +12,10 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 class ShortMessage:
-    def __init__(self, message):
+    def __init__(self, message, phone):
         self.user = 'cf_gaominquan'
         self.password = 'miffy31415926'
-        self.touser = '18657106966'
+        self.touser = phone
         self.message = message
 
     def send(self):
