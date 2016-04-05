@@ -22,6 +22,12 @@ urlpatterns = patterns('',
     # set sell monitor
     url('^setSellMonitor$', views.setSellMonitor, name="setSellMonitor"),
 
+    # single deadline monitor
+    url('^startDeadlineMonitor$', views.startDeadlineMonitor, name="startDeadlineMonitor"),
+
+    # set deadline monitor
+    url('^setDeadlineMonitor$', views.setDeadlineMonitor, name="setDeadlineMonitor"),
+
     # stop buy stock
     url('^stopBuyStock$', views.stopBuyStock, name="stopBuyStock"),
 

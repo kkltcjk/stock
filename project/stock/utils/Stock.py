@@ -11,14 +11,14 @@ class StockLimit:
 first_drop = StockLimit(0.04, 0.005)
 second_drop = StockLimit(0.05, 0.01)
 third_drop = StockLimit(0.08, 0.02)
+extra_drop = StockLimit(0.06, 0.015)
 first_rise = StockLimit(0.03, 0.003)
 second_rise = StockLimit(0.04, 0.005)
 third_rise = StockLimit(0.05, 0.01)
 forth_rise = StockLimit(0.08, 0.02)
 
-class Stock:
-    def __init__(self, code, fd = first_drop, sd = second_drop, td = third_drop, fr = first_rise, sr = second_rise, tr = third_rise, fhr = forth_rise):
-        self.code = code
+class Limit:
+    def __init__(self, fd = first_drop, sd = second_drop, td = third_drop, fr = first_rise, sr = second_rise, tr = third_rise, fhr = forth_rise):
         self.first_drop = fd
         self.second_drop = sd
         self.third_drop = td
@@ -26,6 +26,17 @@ class Stock:
         self.second_rise = sr
         self.third_rise = tr
         self.forth_rise = fhr
+
+stableLimit = Limit()
+unstableLimit = Limit(fd = second_drop, sd = extra_drop)
+
+class Stock:
+    def __init__(self, code, isStable):
+        self.code = code
+        if isStable:
+            self.limit = stableLimit
+        else:
+            self.limit = unstableLimit
 
     def getUrlByCode(self, code):
         """根据代码获取详细的url"""

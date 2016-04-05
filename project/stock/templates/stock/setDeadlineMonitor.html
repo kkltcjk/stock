@@ -1,11 +1,14 @@
 <html>
     <head>
-        <title>设置买入监视</title>
+        <title>设置长时间未抛出的股票监视</title>
     </head>
     <body>
-        <form name="stock" action="startBuyMonitor" method="post">
+        <form name="stock" action="startDeadlineMonitor" method="post">
             股票编号: 
             <input type="text" name="code" />
+            <br />
+            买入价格: 
+            <input type="text" name="buyprice" />
             <br />
             是否稳定: 
             <input type="text" name="isstable" />

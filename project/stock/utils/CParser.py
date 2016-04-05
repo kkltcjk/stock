@@ -21,8 +21,6 @@ class CParser(HTMLParser):
 
     def handle_data(self,data):
         if self.codeflag:
-            print data
             self.dict['code'] = data
         if self.msgflag:
-            print data
             self.dict['msg'] = data
