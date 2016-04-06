@@ -54,6 +54,8 @@ def buyMonitor(stock):
         if drop_percent > dropline:
             if warn_flag == 0:
                 Reminder.warn_master(code, dropline, 0)
+                stock_mess = name_dict[code] + code + u':当前股价为' + str(share_price) + u',股价最大值为' + str(max_price)
+                buystocklogger.info(stock_mess)
                 warn_flag = 1
             if drop_percent > stock.limit.second_drop.line:
                 dropline = stock.limit.second_drop.line
@@ -144,6 +146,8 @@ def sellMonitor(buy_price, stock, todaystart):
         if rise_percent > riseline:
             if warn_flag == 0:
                 Reminder.warn_master(code, riseline, 1)
+                stock_mess = name_dict[code] + code + u':当前股价为' + str(share_price) + u',买入价格为' + str(buy_price)
+                buystocklogger.info(stock_mess)
                 warn_flag = 1
             if rise_percent > stock.limit.second_rise.line:
                 riseline = stock.limit.second_rise.line
