@@ -179,4 +179,4 @@ def threadMonitor(threadList, flag):
                 else:
                     sellstocklogger.info(u'线程' + name_dict[thread.name] + thread.name + u'已经停止运行')
                 threadList.remove(thread)
-        time.sleep(15)
+        time.sleep(120)
