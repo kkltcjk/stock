@@ -118,7 +118,7 @@ def sellMonitor(stock, buy_price, todaystart):
     deadline = now_date + datetime.timedelta(days=5)
 
     if todaystart == 0:
-        roll_seconds = (9 * 60 + 30) + 24 * 60 - (now_date.hour * 60 + now_date.minute)
+        roll_seconds = (1 * 60 + 30) + 24 * 60 - (now_date.hour * 60 + now_date.minute)
         time.sleep(roll_seconds)
 
     max_price = MAX_PRICE

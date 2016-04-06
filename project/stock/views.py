@@ -30,13 +30,13 @@ def buy(request):
         sthread = SThread(Monitor.buyMonitor, (stock,))
         thread_list.append(sthread)
         sthread.start()
-        time.sleep(0.1)
+        # time.sleep(0.1)
     for code in buy_unstable_dict.keys():
         stock = Stock(code, False)
         sthread = SThread(Monitor.buyMonitor, (stock,))
         thread_list.append(sthread)
         sthread.start()
-        time.sleep(0.1)
+        # time.sleep(0.1)
 
     thread.start_new_thread(Monitor.threadMonitor, (thread_list, 0))
 
