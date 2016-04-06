@@ -4,6 +4,7 @@ from django.http import HttpResponse
 import json
 import thread
 import sys
+import time
 
 from conf import website
 from utils.Stock import Stock
@@ -25,9 +26,11 @@ def buy(request):
     for code in buy_stable_dict.keys():
         stock = Stock(code, True)
         thread.start_new_thread(Monitor.buyMonitor, (stock,))
+        time.sleep(0.1)
     for code in buy_unstable_dict.keys():
         stock = Stock(code, False)
         thread.start_new_thread(Monitor.buyMonitor, (stock,))
+        time.sleep(0.1)
 
     return render(request, website.buy)
 

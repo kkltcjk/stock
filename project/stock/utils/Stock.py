@@ -68,6 +68,7 @@ class Stock:
             request = urllib2.Request(url)
             response = urllib2.urlopen(request)
             stockStr = response.read()
+            response.close()
             stockList = stockStr.split(',')
             return stockList
         except Exception as e:

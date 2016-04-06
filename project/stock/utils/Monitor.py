@@ -41,6 +41,8 @@ def buyMonitor(stock):
     remind_flag = 0
     while Static.buy_dict[code]:
         value_list = stock.getValueList()
+        if not value_list:
+            continue
         share_price = float(value_list[1])
         # buystocklogger.info(name_dict[code] + code + u'股票的价格为:' +  str(share_price))
 
