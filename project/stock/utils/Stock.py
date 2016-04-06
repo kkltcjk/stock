@@ -71,7 +71,7 @@ class Stock:
             stockList = stockStr.split(',')
             return stockList
         except Exception as e:
-            mess = ‘Fail to get the price of ' + self.code
+            mess = 'Fail to get the price of ' + self.code
             print mess
             print e
 
