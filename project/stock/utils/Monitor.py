@@ -119,7 +119,7 @@ def sellMonitor(stock, buy_price, todaystart):
 
     if todaystart == 0:
         roll_seconds = (1 * 60 + 30) + 24 * 60 - (now_date.hour * 60 + now_date.minute)
-        time.sleep(roll_seconds)
+        time.sleep(roll_seconds * 60)
 
     max_price = MAX_PRICE
     code = stock.code
