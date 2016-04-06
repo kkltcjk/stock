@@ -113,7 +113,7 @@ def deadlineMonitor(stock, buy_price):
         time.sleep(15)
 
 
-def sellMonitor(buy_price, stock, todaystart):
+def sellMonitor(stock, buy_price, todaystart):
     now_date = datetime.datetime.now()
     deadline = now_date + datetime.timedelta(days=5)
 
@@ -167,4 +167,16 @@ def sellMonitor(buy_price, stock, todaystart):
                 Reminder.remind_master(buy_price, max_price, value_list, code, 1)
                 break
 
+        time.sleep(15)
+
+
+def threadMonitor(threadList, flag):
+    while True:
+        for thread in threadList:
+            if not thread.isAlive():
+                if flag == 0:
+                    buystocklogger.info(u'线程' + name_dict[thread.name] + thread.name + u'已经停止运行')
+                else:
+                    sellstocklogger.info(u'线程' + name_dict[thread.name] + thread.name + u'已经停止运行')
+                threadList.remove(thread)
         time.sleep(15)

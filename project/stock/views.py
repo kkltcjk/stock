@@ -8,6 +8,7 @@ import time
 
 from conf import website
 from utils.Stock import Stock
+from utils.SThread import SThread
 from utils import Static
 from utils import Reminder
 from utils import Monitor
@@ -23,14 +24,21 @@ buy_unstable_dict = Static.buy_unstable_dict
 
 
 def buy(request):
+    thread_list = []
     for code in buy_stable_dict.keys():
         stock = Stock(code, True)
-        thread.start_new_thread(Monitor.buyMonitor, (stock,))
+        sthread = SThread(Monitor.buyMonitor, (stock,))
+        thread_list.append(sthread)
+        sthread.start()
         time.sleep(0.1)
     for code in buy_unstable_dict.keys():
         stock = Stock(code, False)
-        thread.start_new_thread(Monitor.buyMonitor, (stock,))
+        sthread = SThread(Monitor.buyMonitor, (stock,))
+        thread_list.append(sthread)
+        sthread.start()
         time.sleep(0.1)
+
+    thread.start_new_thread(Monitor.threadMonitor, (thread_list, 0))
 
     return render(request, website.buy)
 
@@ -58,7 +66,12 @@ def startBuyMonitor(request):
     Static.set_buy_dict(code, True)
 
     stock = Stock(code, isStable)
-    thread.start_new_thread(Monitor.buyMonitor, (stock,))
+    sthread = SThread(Monitor.buyMonitor, (stock,))
+    sthread.start()
+
+    threadList = []
+    threadList.append(sthread)
+    thread.start_new_thread(Monitor.threadMonitor, (threadList, 0))
 
     return HttpResponse(json.dumps({'state': 'SUCCESS'}))
 
@@ -81,7 +94,12 @@ def startSellMonitor(request):
     Static.set_sell_dict(code, True)
 
     stock = Stock(code, isStable)
-    thread.start_new_thread(Monitor.sellMonitor, (buyprice, stock, todaystart))
+    sthread = SThread(Monitor.sellMonitor, (stock, buyprice, todaystart))
+    sthread.start()
+
+    threadList = []
+    threadList.append(sthread)
+    thread.start_new_thread(Monitor.threadMonitor, (threadList, 1))
 
     return HttpResponse(json.dumps({'state': 'SUCCESS'}))
 
@@ -103,7 +121,12 @@ def startDeadlineMonitor(request):
     Static.set_sell_dict(code, True)
 
     stock = Stock(code, isStable)
-    thread.start_new_thread(Monitor.deadlineMonitor, (stock, buyprice))
+    sthread = SThread(Monitor.deadlineMonitor, (stock, buyprice))
+    sthread.start()
+
+    threadList = []
+    threadList.append(sthread)
+    thread.start_new_thread(Monitor.threadMonitor, (threadList, 1))
 
     return HttpResponse(json.dumps({'state': 'SUCCESS'}))
 
