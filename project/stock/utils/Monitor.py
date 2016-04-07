@@ -44,6 +44,8 @@ def buyMonitor(stock):
         if not value_list:
             continue
         share_price = float(value_list[1])
+        if share_price < 0.5:
+            continue
         # buystocklogger.info(name_dict[code] + code + u'股票的价格为:' +  str(share_price))
 
         if share_price > max_price:
@@ -93,7 +95,12 @@ def deadlineMonitor(stock, buy_price):
 
     remind_flag = 0
     while Static.sell_dict[code]:
-        share_price = float(stock.getValueList()[1])
+        value_list = stock.getValueList()
+        if not value_list:
+            continue
+        share_price = float(value_list[1])
+        if share_price < 0.5:
+            continue
 
         if (share_price - buy_price) / buy_price > deadline:
             Reminder.deadline_master(code, share_price)
@@ -138,7 +145,11 @@ def sellMonitor(stock, buy_price, todaystart):
             break
 
         value_list = stock.getValueList()
+        if not value_list:
+            continue
         share_price = float(value_list[1])
+        if share_price < 0.5:
+            continue
         # sellstocklogger.info(name_dict[code] + code + '股票的价格为:' + str(share_price))
 
         if share_price > max_price:

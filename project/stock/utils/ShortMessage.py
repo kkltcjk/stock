@@ -39,15 +39,15 @@ class ShortMessage:
             req = urllib2.Request(url=SERVICE_URL, data=encoding_data)
             res = urllib2.urlopen(req)
 
-            time.sleep(1)
-            send_flag = True
-
             result = res.read()
             parser = CParser()
             parser.feed(result)
-
             dict = parser.dict
+
             parser.close()
+            time.sleep(1)
+            send_flag = True
+
             return dict
         except Exception as e:
             print e
