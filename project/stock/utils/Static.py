@@ -51,17 +51,12 @@ buy_stable_dict = {
     '600999': True,
     '600030': True,
     '600664': True,
-    '603998': True,
     '002287': True,
     '600246': True,
-    '002284': True,
     '002236': True,
     '000333': True,
     '601919': True,
-    '600021': True,
-    '600116': True,
-    '002279': True,
-    '600718': True
+    '600021': True
 }
 
 buy_unstable_dict = {
@@ -72,6 +67,11 @@ buy_unstable_dict = {
     '000156': True,
     '002095': True,
     '600639': True,
+    '002284': True,
+    '600116': True,
+    '002279': True,
+    '600718': True,
+    '603998': True,
     '002192': True
 }
 
