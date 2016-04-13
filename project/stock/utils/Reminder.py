@@ -31,6 +31,22 @@ def warn_master(code, line, flag):
     remindlogger.info(return_mess)
 
 
+def reset_master(code):
+    message = ''
+    message += u'您所关注的股票代码【'
+    message += name_dict[code] + code
+    message += u'】今日已上涨【'
+    message += '5'
+    message += u'】%，请及时重置。'
+
+    phone = '13148436656'
+    short_message = ShortMessage(message, phone)
+    return_dict = short_message.send()
+
+    return_mess = name_dict[code] + code + u'股票警告:返回值为' + return_dict['code'] + u',状态为' + return_dict['msg']
+    remindlogger.info(return_mess)
+
+
 def remind_master(first_price, second_price, value_list, code, flag):
     if flag == 0:
         first_percent = '%4.2f' % ((first_price - second_price) / first_price * 100)

@@ -39,6 +39,7 @@ def buyMonitor(stock):
 
     warn_flag = 0
     remind_flag = 0
+    reset_flag = 0
     while Static.buy_dict[code]:
         value_list = stock.getValueList()
         if not value_list:
@@ -47,6 +48,10 @@ def buyMonitor(stock):
         if share_price < 0.5:
             continue
         # buystocklogger.info(name_dict[code] + code + u'股票的价格为:' +  str(share_price))
+        if float(value_list[3]) > 5.0:
+            if reset_flag == 0:
+                Reminder.reset_master(code)
+                reset_flag = 1
 
         if share_price > max_price:
             max_price = share_price
@@ -191,3 +196,5 @@ def threadMonitor(threadList, flag):
                     sellstocklogger.info(u'线程' + name_dict[thread.name] + thread.name + u'已经停止运行')
                 threadList.remove(thread)
         time.sleep(120)
+        if len(threadList) == 0:
+            break
