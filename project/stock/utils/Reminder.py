@@ -43,7 +43,7 @@ def reset_master(code):
     short_message = ShortMessage(message, phone)
     return_dict = short_message.send()
 
-    return_mess = name_dict[code] + code + u'股票警告:返回值为' + return_dict['code'] + u',状态为' + return_dict['msg']
+    return_mess = name_dict[code] + code + u'股票重置警告:返回值为' + return_dict['code'] + u',状态为' + return_dict['msg']
     remindlogger.info(return_mess)
 
 
