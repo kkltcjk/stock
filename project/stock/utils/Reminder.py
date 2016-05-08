@@ -11,6 +11,8 @@ buystocklogger = Static.buystocklogger
 sellstocklogger = Static.sellstocklogger
 remindlogger = Static.remindlogger
 
+cnt = 0
+
 
 def warn_master(code, line, flag):
     message = ''
@@ -23,7 +25,12 @@ def warn_master(code, line, flag):
     message += str(line * 100)
     message += u'】%，请及时关注。'
 
-    phone = '13148499085'
+    global cnt
+    if cnt % 2 == 0:
+        phone = '13148499085'
+    else:
+        phone = '13148436656'
+    cnt += 1
     short_message = ShortMessage(message, phone)
     return_dict = short_message.send()
 
@@ -96,7 +103,13 @@ def remind_master(first_price, second_price, value_list, code, flag):
     else:
         message += u'】%，建议立即抛出。'
 
-    phone = '18657106966'
+
+    global cnt
+    if cnt % 2 == 0:
+        phone = '18657106966'
+    else:
+        phone = '18605705068'
+    cnt += 1
     short_message = ShortMessage(message, phone)
     return_dict = short_message.send()
 
